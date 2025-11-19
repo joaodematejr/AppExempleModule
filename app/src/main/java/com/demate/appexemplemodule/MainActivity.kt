@@ -12,16 +12,42 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.demate.appexemplemodule.ui.theme.AppExempleModuleTheme
+import com.demate.common.CommonUtil
+import com.demate.core.CoreUtil
+import com.demate.data.GreetingModule
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // obtain greeting from data module and other modules with explicit types and fallbacks
+        val dataGreeting: String = try {
+            GreetingModule.provideGreetingProvider().greeting()
+        } catch (t: Throwable) {
+            "(data module unavailable)"
+        }
+
+        val coreGreeting: String = try {
+            CoreUtil.coreMessage()
+        } catch (t: Throwable) {
+            "(core module unavailable)"
+        }
+
+        val commonGreeting: String = try {
+            CommonUtil.commonMessage()
+        } catch (t: Throwable) {
+            "(common module unavailable)"
+        }
+
+        val combined: String =
+            listOf<String>(dataGreeting, coreGreeting, commonGreeting).joinToString("\n")
+
         setContent {
             AppExempleModuleTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "Android",
+                        text = combined,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -31,9 +57,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting(text: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $name!",
+        text = text,
         modifier = modifier
     )
 }
@@ -42,6 +68,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     AppExempleModuleTheme {
-        Greeting("Android")
+        Greeting("Preview greeting")
     }
 }
