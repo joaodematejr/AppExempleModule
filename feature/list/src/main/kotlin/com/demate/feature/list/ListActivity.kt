@@ -1,7 +1,8 @@
 package com.demate.feature.list
 
 import android.os.Bundle
-import androidx.core.app.ComponentActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 
 class ListActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,4 +12,3 @@ class ListActivity : ComponentActivity() {
         }
     }
 }
-
