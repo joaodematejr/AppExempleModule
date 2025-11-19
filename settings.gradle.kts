@@ -21,4 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "AppExempleModule"
 include(":app")
- 
+include(":domain")
+include(":core")
+include(":data")
+include(":feature")
+include(":common")
